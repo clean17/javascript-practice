@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,51 +8,73 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
+
 <body>
-    <h1>게시글 수정하기</h1><hr>
+    <h1>게시글 수정하기</h1>
+    <hr>
     <form>
-        <input type="text" id="id" placeholder="Enter id"><br>
-        <input type="text" id="title" placeholder="Enter title"><br>
-        <input type="text" id="body" placeholder="Enter body"><br>
-        <input type="text" id="userId" placeholder="Enter userId"> <br>       
-        <!-- 버튼의 타입을 주지 않으면 submit 으로 인식함.. action을 지워서 작동하지 않음 -->
-        <button type="button" onclick="updateById()">수정하기</button> 
+        <input type="text" id="number1" placeholder="입력">
+        <button type="button" onclick="onLoad()">데이터 불러오기</button>
+        <div id="here">
+        </div>
+        <button type="button" onclick="updateById()">수정하기</button>
     </form>
     
-    <script>
-        function onLoad(){
-            // div 만들어서 데이터를 뿌려ㅗ바 수정하기전에 폼에 내기록 보이게
+    <script>    
+        function onLoad() {
+            $('#here').empty();
+            let num = $('#number1').val();
+    
+            $.ajax({
+                type: "get",
+                url: `https://jsonplaceholder.typicode.com/posts/${num}`,
+                dataType: "json"
+    
+            }).done((post) => {    
+                render(post);
+            }).fail((err) => {
+                console.log(err);
+            });
         }
-        onLoad();
-        function updateById(){           
-            // 1. 값 받아오기
-            let post = {                
+
+        function render(post){
+            $("#here").append(`
+                <input type="text" id="id" id="id" value="${post.id}"><br>
+                <input type="text" size="50" id="title" value="${post.title}"><br>
+                <input type="text" size="50" id="body" value="${post.body}"><br>
+                <input type="text" id="userId" value="${post.userId}"><br>                
+                `)
+        }
+
+        function updateById() {
+            let post = {
                 id: $('#id').val(),
                 title: $('#title').val(),
                 body: $('#body').val(),
                 userId: $('#userId').val()
-            };
-         
-            // 2. 통신하기
-            $.ajax({        // fetch().then().then() 도 같은 역할 !
-                type:"put",
+            };            
+            console.log(JSON.stringify(post));
+    
+            $.ajax({
+                type: "put",
                 url: `https://jsonplaceholder.typicode.com/posts/${post.id}`,
-                data:JSON.stringify(post),
-                headers:{
-                    "content-type":"application/json; charset=utf-8"
+                data: JSON.stringify(post),
+                headers: {
+                    "content-type": "application/json; charset=utf-8"
                 },
-                dataType:"json"
-            }).done((res)=>{
+                dataType: "json"
+
+            }).done((res) => {
                 alert('성공')
-                console.log('id',res.id);
-                console.log('title',res.title);
-                console.log('body',res.body);
-                console.log('userId',res.userId);
-            }).fail((err)=>{
+                console.log('id', res.id);
+                console.log('title', res.title);
+                console.log('body', res.body);
+                console.log('userId', res.userId);
+            }).fail((err) => {
                 console.log(err);
-            });       
-        } 
-        
+            });
+        }    
     </script>
 </body>
+
 </html>

@@ -26,18 +26,17 @@
             }
          
             // 3. 통신하기
-            $.ajax({        // fetch().then().then() 도 같은 역할 !
+            $.ajax({
                 type:"delete",
-                url: `https://jsonplaceholder.typicode.com/posts/${id}`                
+                url: `https://jsonplaceholder.typicode.com/posts/${id}`            
             }).done(()=>{
                 alert('성공')
-                // location.href="http://www.naver.com"
+                // location.href="삭제하고 이동할 주소"
                 console.log(id);                
             }).fail(()=>{
                 console.log('에러');
             });       
-        } 
-        
+        }         
     </script>
 </body>
 </html>
