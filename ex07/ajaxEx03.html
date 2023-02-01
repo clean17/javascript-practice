@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>게시글 쓰기</h1><hr>
+    <form>
+        <input type="text" id="title" placeholder="Enter title"><br>
+        <input type="text" id="body" placeholder="Enter body"><br>
+        <input type="text" id="userId" placeholder="Enter userId"> <br>       
+        <!-- 버튼의 타입을 주지 않으면 submit 으로 인식함.. action을 지워서 작동하지 않음 -->
+        <button type="button" onclick="write1()">글쓰기</button> 
+    </form>
+    
+    <script>
+        function write1(){           
+            // 1. 값 받아오기
+            let post = {                
+                title: $(`#title`).val(), // 3가지 가능
+                body: $('#body').val(),
+                userId: $("#userId").val()
+            };
+            // let a = json.stringify(post);
+            // console.log('테스트'+ a);  // 이거 왜 안나옴 ?? 
+            
+            
+            // 2. 통신하기
+            $.ajax({        // fetch().then().then() 도 같은 역할 !
+                type:"post",
+                url: "https://jsonplaceholder.typicode.com/posts",
+                data:JSON.stringify(post),
+                headers:{
+                    "content-type":"application/json; charset=utf-8"
+                },
+                dataType:"json"
+            }).done((res)=>{
+                console.log('id',res.id);
+                console.log('title',res.title);
+                console.log('body',res.body);
+                console.log('userId',res.userId);
+            }).fail((err)=>{
+                console.log(err);
+            });       
+        }
+        $.ajax({
+        
+        }).done((res) => {
+        
+        }).fail((err) => {
+        
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <h1>의자</h1>
+     <div>탁자</div>
+     <h3>책상</h3>
+     
+     <button id="btnSeat">의자없애기</button>
+     <script>
+         // 의자를 찾고 기능을 추가해야함
+        let e1 = document.querySelector("#btnSeat");
+        // querySelector 와 getElement 차이는 ?
+        console.log(e1)
+
+        // addEventListener 의 첫번째 인자 - 리스너가 받을 커맨드 // 두번째 인자 - 기능
+        e1.addEventListener("click",() => {
+            console.log("44");
+            alert("클릭됨");
+            let e2 = document.querySelector("h1");
+            e2.remove();
+        } );
+
+
+        //  document.getElementById(btnSeet).onclick(dudu());
+        //  let dudu = ()=>{ }
+     </script>
+</body>
+</html>

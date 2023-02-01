@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="postBox">
+        <table id="postBox-table" border="1">
+            <tr>
+                <td>아이디</td>
+                <td>제목</td>
+                <td>내용</td>
+                <td>유저이름</td>
+                
+            </tr>
+
+        </table>
+    </div>
+    <button onclick="down()">다운로드</button>
+    <script>
+        async function down(){
+            let response = await fetch("http://192.168.200.58:8080/init/post", {  
+        
+            method: "get"   
+            
+            } );
+            console.log(response);
+            let jsObject = await response.json(); // 응답받은 데이터를 json 으로 바꿔서 저장
+            // console.log(response);
+            // console.log(jsObject);
+             {  키 : 값 }
+
+
+            let spot = document.createElement('tr');
+            spot.innerHTML = `
+            <td>${jsObject.data[0].id}</td>
+            <td>${jsObject.data[0].title}</td>
+            <td>${jsObject.data[0].content}</td>
+            <td>${jsObject.data[0].user.username}</td>
+            `;
+            let target = document.querySelector('#postBox-table');
+            target.append( spot );
+            // console.log(jsObject.data[0].title);
+        }
+    </script>
+</body>
+</html>

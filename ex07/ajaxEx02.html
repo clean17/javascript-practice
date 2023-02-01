@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>ajax get 요청</h1>
+    <hr>
+    <div id="postBox">
+        
+    </div>
+
+    <button onclick="getPost()">통신요청</button>
+    
+    <script>
+        function getPost(){     
+            $.ajax({
+                type:"get",  
+                url: "http://localhost:8080/init/post",
+                dataType:"json" 
+              
+            }).done((abc)=>{             
+                if(abc.code == 1){  
+                    render(abc.data);
+                }else{
+                    alert('통신실패');
+                }
+            })           
+            .fail((err)=>{ 
+                console.log(err);                
+            });  
+        }
+
+        function render(posts){       
+                  posts.forEach((post)=>{
+                    let el = `
+                        <div id="post${post.id}">
+                            ${post.id} ${post.title} ${post.content}
+                        </div> 
+                        <button onclick="deleteById(${post.id})"> 삭제 </button>                  
+                    `;
+                    $("#postBox").prepend(el);
+                })          
+        }
+        function deleteById(id){
+            $(event.currentTarget).remove();
+            $(`#post${id}`).remove();
+        }
+        
+        // 삭제하는 등의 제어를 하고 싶으면 id 를 달아놔야 한다 이렇게 간단하게 삭제가 가능하잖아
+    </script>
+</body>
+</html>
